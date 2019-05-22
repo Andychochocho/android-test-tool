@@ -1,0 +1,25 @@
+{
+  "name": "android-testing-tool",
+  "version": "1.0.0",
+  "description": "A user-friendly and lightweight tool for Android app testing",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Andychochocho/android-testing-tool.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Andychochocho/android-testing-tool/issues"
+  },
+  "homepage": "https://github.com/Andychochocho/android-testing-tool#readme",
+  "devDependencies": {
+    "electron": "^5.0.1"
+  }
+}
