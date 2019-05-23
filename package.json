@@ -23,5 +23,8 @@
     "electron": "^5.0.1",
     "mocha": "^6.1.4",
     "spectron": "^5.0.0"
+  },
+  "dependencies": {
+    "adbkit": "^2.11.1"
   }
 }
