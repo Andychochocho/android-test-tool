@@ -1,5 +1,13 @@
 var adb = require('adbkit')
 var client = adb.createClient()
+var fs = require('fs');
+var home = require("os").homedir();
+var logpath = home + '/Desktop/logcat.txt';
+
+fs.writeFile(logpath, 'Hello world', function (err) {
+  if (err) throw err;
+  console.log('Saved!');
+});
 
 client.trackDevices()
   .then(function(tracker) {
