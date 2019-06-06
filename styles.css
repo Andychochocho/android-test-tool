@@ -1,0 +1,41 @@
+#demo {
+  color: #E57373;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.image {
+  backface-visibility: hidden;
+  opacity: 1;
+  transition: .5s ease;
+}
+
+.save_logs {
+  height: 20%;
+  margin: auto;
+  width: 25%;
+}
+
+.save_logs:hover {
+  cursor: pointer;
+  opacity: 0.3;
+}
+
+body {
+  background-color: #FCE4EC;
+  text-align: center;
+}
+
+h2, p {
+  font-family: 'Lora', serif;
+  font-weight: bolder;
+}
+
+h2 {
+  color: #E57373;
+}
+
+p {
+  bottom: 20px;
+  color: #7777AA;
+  position: relative;
+}

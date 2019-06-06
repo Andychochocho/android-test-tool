@@ -1,6 +1,10 @@
 var adb = require('adbkit')
 var client = adb.createClient()
 
+if (document.getElementById("demo").length === undefined) {
+  document.getElementById("demo").innerHTML = "Please connect your device"
+}
+
 client.trackDevices()
   .then(function(tracker) {
     tracker.on('add', function(device) {
