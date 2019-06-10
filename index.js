@@ -1,8 +1,11 @@
+const logcat = require('adbkit-logcat')
+const {spawn} = require('child_process')
 var adb = require('adbkit')
 var client = adb.createClient()
 var fs = require('fs');
 var home = require("os").homedir();
 var logpath = home + '/Desktop/logcat.txt';
+
 
 client.trackDevices()
   .then(function(tracker) {
@@ -20,9 +23,8 @@ client.trackDevices()
     document.getElementById("demo").innerHTML = "Something went wrong: " + err.stack;
   })
 
-const logcat = require('adbkit-logcat')
-const {spawn} = require('child_process')
- 
+
+// Change reader.js (fixLineFeeds: true to false) for newer android devices  
 // Retrieve a binary log stream
 const proc = spawn('adb', ['logcat', '-B'])
  
