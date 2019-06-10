@@ -1,12 +1,19 @@
 # android-testing-tool
-A user-friendly and lightweight tool for Android app testing
+Android Test Tool is a lightweight user-friendly desktop app for Android testing.
 
-Roadmap:
+2019 Roadmap:
 
-Q2: Mac installer, Device Status Indicator, Log Collector, Screenshot capture
+July: Mac installer, device status and model indicator, save logical to desktop
 
-Q3: Screenshot Annotation, Video Capture, Device Stats
+August: Screenshot capture
 
-Q4: Network Traffic Control
+September: Video capture to mp4 or GIF
 
-Q1'20: Windows app
+October: View and search log in app
+
+November: Screenshot annotations
+
+December: Device performance stats dashboard
+
+2020 Features: Network traffic control, Analytics calls filtering, Windows installer
+
