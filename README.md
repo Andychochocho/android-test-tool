@@ -3,7 +3,7 @@ Android Test Tool is a lightweight user-friendly desktop app for Android testing
 
 **NOTE**: In order to be able to use this tool, you first need ADB installed. We recommend this method on MacOS:
 
-Open terminal and install home-brew and adb with the following commands (if not done so already:
+Open terminal and install home-brew and adb with the following commands (if not done so already):
 ```
 ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 brew cask install android-platform-tools
