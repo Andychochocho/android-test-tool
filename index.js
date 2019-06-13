@@ -30,8 +30,12 @@ client.trackDevices()
 
 // Change reader.js (fixLineFeeds: true to false) for newer android devices  
 // Retrieve a binary log stream
-const proc = spawn('adb', ['logcat', '-B'])
- 
+
+const proc = spawn('adb', ['logcat', '-B'], {
+  shell: true,
+  env: home + "/.android-sdk-macosx/platform-tools/"
+});
+
 // Connect logcat to the stream
 reader = logcat.readStream(proc.stdout)
 reader.on('entry', entry => {
