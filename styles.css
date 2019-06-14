@@ -3,21 +3,21 @@
   font-family: 'Open Sans', sans-serif;
 }
 
-.image {
-  backface-visibility: hidden;
-  opacity: 1;
-  transition: .5s ease;
-}
-
-.save_logs {
+#save_logs {
   height: 20%;
   margin: auto;
   width: 25%;
 }
 
-.save_logs:hover {
+#save_logs:hover {
   cursor: pointer;
   opacity: 0.3;
+}
+
+.image {
+  backface-visibility: hidden;
+  opacity: 1;
+  transition: .5s ease;
 }
 
 body {
