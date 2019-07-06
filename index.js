@@ -2,7 +2,7 @@ const logcat = require('adbkit-logcat')
 const {spawn} = require('child_process')
 var adb = require('adbkit')
 var client = adb.createClient()
-var fs = require('graceful-fs');
+var fs = require('fs');
 var home = require("os").homedir();
 var logpath = home + '/Desktop/logcat.txt';
 

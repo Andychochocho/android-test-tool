@@ -11,12 +11,15 @@
 
 #save_logs:hover {
   cursor: pointer;
-  opacity: 0.3;
+}
+
+.image:hover {
+  opacity: 1;
 }
 
 .image {
-  backface-visibility: hidden;
-  opacity: 1;
+  /* backface-visibility: hidden; */
+  opacity: .3;
   transition: .5s ease;
 }
 
