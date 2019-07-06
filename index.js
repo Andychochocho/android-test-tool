@@ -13,10 +13,10 @@ if (document.getElementById("demo").length === undefined) {
 client.trackDevices()
   .then(function(tracker) {
     tracker.on('add', function(device) {
-        document.getElementById("demo").innerHTML = "Device was plugged in";
+        document.getElementById("demo").innerHTML = "Device connected";
     })
     tracker.on('remove', function(device) {
-        document.getElementById("demo").innerHTML = "Device was unplugged";
+        document.getElementById("demo").innerHTML = "Device not connected";
     })
     tracker.on('end', function() {
       console.log('Tracking stopped');
