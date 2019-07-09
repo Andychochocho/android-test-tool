@@ -4,6 +4,7 @@
 }
 
 #save_logs {
+  pointer-events: none;
   height: 20%;
   margin: auto;
   width: 25%;

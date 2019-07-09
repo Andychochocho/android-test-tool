@@ -14,9 +14,11 @@ client.trackDevices()
   .then(function(tracker) {
     tracker.on('add', function(device) {
         document.getElementById("demo").innerHTML = "Device connected";
+        document.getElementById("save_logs").style.pointerEvents = "auto";
     })
     tracker.on('remove', function(device) {
         document.getElementById("demo").innerHTML = "Device not connected";
+        document.getElementById("save_logs").style.pointerEvents = "none";
     })
     tracker.on('end', function() {
       console.log('Tracking stopped');
