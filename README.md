@@ -5,11 +5,6 @@ Currently only Android OS versions 7.0 and up are supported for the save log fea
 
 See the Product Backlog for features coming in future releases: https://github.com/Andychochocho/android-testing-tool/projects/2
 
-
-Temporary Build Link (ZIP): https://www.dropbox.com/s/t9f8itqyeid2zk7/Android%20Test%20Tool.dmg?dl=0
-
-Temporary Build Link (DMG): https://www.dropbox.com/s/t9f8itqyeid2zk7/Android%20Test%20Tool.dmg?dl=0
-
 **NOTE**: In order to be able to use this tool, you first need ADB installed. We recommend this method on MacOS:
 
 Open terminal and install home-brew and adb with the following commands (if not done so already):
