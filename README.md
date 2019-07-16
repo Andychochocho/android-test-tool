@@ -1,7 +1,7 @@
-# android-testing-tool
+# android-test-tool
 Android Test Tool is a lightweight MacOS app designed for QA testers who need a quick way to repeatedly save android device logs for bug reports when testing Android apps without stressing system resources.
 
-Currently only Android OS versions 7.0 and up are supported for the save log feature. LG and HTC devices are not supported due to an Android Debug Bridge (ADB) vulnerability on those devices.
+You can find the latest release details at https://github.com/Andychochocho/android-testing-tool/releases. The downloadable installer can be found under the Assets section for each release.
 
 See the Product Backlog for features coming in future releases: https://github.com/Andychochocho/android-testing-tool/projects/2
 
