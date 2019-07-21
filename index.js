@@ -13,10 +13,21 @@ if (document.getElementById("demo").length === undefined) {
 client.trackDevices()
   .then(function(tracker) {
     tracker.on('add', function(device) {
-        document.getElementById("demo").innerHTML = "Device connected";
+      document.getElementById("demo").innerHTML = "Device connected";
+
+      //give adb time to determine whether the device is authorized before attempting getProperties()
+      setTimeout(function (){
+        client.getProperties(device.id).then(function(properties){
+          document.getElementById("device_info").innerHTML = "Model: " + properties["ro.product.model"];
+        }).catch(function(err){
+          document.getElementById("device_info").innerHTML = err;
+        })}, 500
+      );
+      
     })
     tracker.on('remove', function(device) {
         document.getElementById("demo").innerHTML = "Device not connected";
+        document.getElementById("device_info").innerHTML = "";
     })
     tracker.on('end', function() {
       console.log('Tracking stopped');
