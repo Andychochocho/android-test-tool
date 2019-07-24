@@ -1,39 +1,49 @@
-const logcat = require('adbkit-logcat')
-const {spawn} = require('child_process')
-var adb = require('adbkit')
-var client = adb.createClient()
-var fs = require('fs');
-var home = require("os").homedir();
-var logpath = home + '/Desktop/logcat.txt';
+const logcat = require('adbkit-logcat');
+const {spawn} = require('child_process');
+const adb = require('adbkit');
+const fs = require('fs');
+const home = require("os").homedir();
+const client = adb.createClient();
+const logpath = home + '/Desktop/logcat.txt';
 
-if (document.getElementById("device_info").length === undefined) {
-  document.getElementById("device_info").innerHTML = "Please connect your device"
+try {
+  // checks if folder exists for adb
+  if (fs.existsSync(home + "/.android-sdk-macosx/platform-tools/")) {
+    if (document.getElementById("device_info").length === undefined) {
+      document.getElementById("device_info").innerHTML = "Please connect your device"
+    }
+    client.trackDevices()
+      .then(function(tracker) {
+        tracker.on('add', function(device) {
+          //give adb time to determine whether the device is authorized before attempting getProperties()
+          setTimeout(function (){
+            client.getProperties(device.id).then(function(properties){
+              document.getElementById("device_info").innerHTML = "Device " + properties["ro.product.model"] + " is connected";
+              document.getElementById("save_logs").style.pointerEvents = "auto";
+            }).catch(function(err){
+              document.getElementById("device_info").innerHTML = err;
+            })}, 500
+          );  
+        })
+        tracker.on('remove', function(device) {
+            document.getElementById("device_info").innerHTML = "Device not connected";
+            document.getElementById("save_logs").style.pointerEvents = "none";
+        })
+        tracker.on('end', function() {
+          console.log('Tracking stopped');
+        })
+      })
+      .catch(function(err) {
+        document.getElementById("demo").innerHTML = "Something went wrong: " + err.stack;
+      })    
+  }
+  else {
+    document.getElementById("device_info").innerHTML = "ADB not detected!" + 
+    "<br />" + "Please see install instructions in the Readme."
+  }
+} catch(err) {
+  console.error(err)
 }
-
-client.trackDevices()
-  .then(function(tracker) {
-    tracker.on('add', function(device) {
-      //give adb time to determine whether the device is authorized before attempting getProperties()
-      setTimeout(function (){
-        client.getProperties(device.id).then(function(properties){
-          document.getElementById("device_info").innerHTML = "Device " + properties["ro.product.model"] + " is connected";
-          document.getElementById("save_logs").style.pointerEvents = "auto";
-        }).catch(function(err){
-          document.getElementById("device_info").innerHTML = err;
-        })}, 500
-      );  
-    })
-    tracker.on('remove', function(device) {
-        document.getElementById("device_info").innerHTML = "Device not connected";
-        document.getElementById("save_logs").style.pointerEvents = "none";
-    })
-    tracker.on('end', function() {
-      console.log('Tracking stopped');
-    })
-  })
-  .catch(function(err) {
-    document.getElementById("demo").innerHTML = "Something went wrong: " + err.stack;
-  })
 
 // Change reader.js (fixLineFeeds: true to false) for newer android devices  
 // Retrieve a binary log stream
