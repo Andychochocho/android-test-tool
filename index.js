@@ -6,18 +6,25 @@ var fs = require('fs');
 var home = require("os").homedir();
 var logpath = home + '/Desktop/logcat.txt';
 
-if (document.getElementById("demo").length === undefined) {
-  document.getElementById("demo").innerHTML = "Please connect your device"
+if (document.getElementById("device_info").length === undefined) {
+  document.getElementById("device_info").innerHTML = "Please connect your device"
 }
 
 client.trackDevices()
   .then(function(tracker) {
     tracker.on('add', function(device) {
-        document.getElementById("demo").innerHTML = "Device connected";
-        document.getElementById("save_logs").style.pointerEvents = "auto";
+      //give adb time to determine whether the device is authorized before attempting getProperties()
+      setTimeout(function (){
+        client.getProperties(device.id).then(function(properties){
+          document.getElementById("device_info").innerHTML = "Device " + properties["ro.product.model"] + " is connected";
+          document.getElementById("save_logs").style.pointerEvents = "auto";
+        }).catch(function(err){
+          document.getElementById("device_info").innerHTML = err;
+        })}, 500
+      );  
     })
     tracker.on('remove', function(device) {
-        document.getElementById("demo").innerHTML = "Device not connected";
+        document.getElementById("device_info").innerHTML = "Device not connected";
         document.getElementById("save_logs").style.pointerEvents = "none";
     })
     tracker.on('end', function() {
