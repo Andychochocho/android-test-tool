@@ -8,7 +8,7 @@ const logpath = home + '/Desktop/logcat.txt';
 
 try {
   // checks if folder exists for adb
-  if (fs.existsSync(home + "/.android-sdk-macosx/platform-tools/")) {
+  if (fs.existsSync(home + "/../../usr/local/Caskroom/android-platform-tools")) {
     if (document.getElementById("device_info").length === undefined) {
       document.getElementById("device_info").innerHTML = "Please connect your device"
     }
