@@ -67,8 +67,16 @@ button_click_el.addEventListener('click', function() {
       if (err) throw err;
     });
   })
+
   // Make sure we don't leave anything hanging
   process.on('exit', () => {
     proc.kill()
   })
 }, false);
+
+var read_me = document.getElementById('readme');
+const {shell} = require('electron');
+
+read_me.addEventListener('click', function() {
+  shell.openExternal('https://github.com/Andychochocho/android-test-tool/blob/master/README.md')
+})
