@@ -1,16 +1,36 @@
-#demo {
+#device_info {
   color: #E57373;
   font-family: 'Open Sans', sans-serif;
 }
 
+#header_text {
+  margin-left: 20px;
+}
+
 #save_logs {
+  pointer-events: none;
   height: 20%;
   margin: auto;
   width: 25%;
 }
 
-#save_logs:hover {
+#readme:hover{
   cursor: pointer;
+}
+
+#save_logs:hover{
+  cursor: pointer;
+}
+
+#readme {
+  border:none;
+  outline:none;
+  text-decoration:none;
+  color: #7777AA;
+  font-family: 'Open Sans', sans-serif;
+  float: right;
+  font-size: 20px;
+  margin-right: 20px;
 }
 
 .image:hover {

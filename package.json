@@ -1,7 +1,7 @@
 {
   "name": "android-testing-tool",
   "version": "1.0.0",
-  "description": "A user-friendly and lightweight tool for Android app testing",
+  "description": "A lightweight Android app testing tool for QA professionals.",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
