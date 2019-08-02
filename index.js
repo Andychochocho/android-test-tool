@@ -1,3 +1,4 @@
+const {shell} = require('electron');
 const logcat = require('adbkit-logcat');
 const {spawn} = require('child_process');
 const adb = require('adbkit');
@@ -54,6 +55,7 @@ const proc = spawn('adb', ['logcat', '-B'], {
 });
 
 var button_click_el = document.getElementById('save_logs');
+var read_me = document.getElementById('readme');
 
 button_click_el.addEventListener('click', function() {
   alert('Your logs are being saved!');
@@ -74,9 +76,7 @@ button_click_el.addEventListener('click', function() {
   })
 }, false);
 
-var read_me = document.getElementById('readme');
-const {shell} = require('electron');
-
+// hyperlink to readme file on github
 read_me.addEventListener('click', function() {
   shell.openExternal('https://github.com/Andychochocho/android-test-tool/blob/master/README.md')
 })
