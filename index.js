@@ -63,11 +63,25 @@ button_click_el.addEventListener('click', function() {
 
 button_click_el.addEventListener('click', function() {
   // Connect logcat to the stream
+  var running = true;
   reader = logcat.readStream(proc.stdout)
+  if (document.getElementById('image_icons').src.includes('save')) {
+    running = true;
+    image_icons.src = "./images/stop_icon.png"
+  } else {
+    running = false;
+    image_icons.src = "./images/save_icon.png"
+  }
+
+  // else (document.getElementById('image_icons').src.includes('stop'))
+
   reader.on('entry', entry => {
-    fs.appendFile(logpath, entry.message, function (err) {
-      if (err) throw err;
-    });
+    if(running === true){
+      fs.appendFile(logpath, entry.message, function (err) {
+        if (err) throw err;
+      });
+    }
+    
   })
 
   // Make sure we don't leave anything hanging
