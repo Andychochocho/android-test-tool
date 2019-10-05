@@ -58,31 +58,44 @@ var button_click_el = document.getElementById('save_logs');
 var read_me = document.getElementById('readme');
 
 button_click_el.addEventListener('click', function() {
-  alert('Your logs are being saved!');
+  //alert('Your logs are being saved!');
 }, false);
 
+var running = false;
+
 button_click_el.addEventListener('click', function() {
-  // Connect logcat to the stream
-  var running = true;
-  reader = logcat.readStream(proc.stdout)
-  if (document.getElementById('image_icons').src.includes('save')) {
-    running = true;
-    image_icons.src = "./images/stop_icon.png"
-  } else {
+
+  if(running === true){
     running = false;
+  }
+  else{
+    running = true;
+  }
+
+  // Connect logcat to the stream
+  reader = logcat.readStream(proc.stdout)
+  if (running) {
+    alert('Your logs are being saved!');
+    image_icons.src = "./images/stop_icon.png"
+    
+    reader.on('entry', handleNewData => {
+      if(running === true){
+        fs.appendFile(logpath, handleNewData.message, function (err) {
+          if (err) throw err;
+        });
+      }
+      else{
+        console.log("Log is not running");
+      }
+      
+    });
+  }
+  else {
+    alert('Stopping feed!');
     image_icons.src = "./images/save_icon.png"
   }
 
   // else (document.getElementById('image_icons').src.includes('stop'))
-
-  reader.on('entry', entry => {
-    if(running === true){
-      fs.appendFile(logpath, entry.message, function (err) {
-        if (err) throw err;
-      });
-    }
-    
-  })
 
   // Make sure we don't leave anything hanging
   process.on('exit', () => {
