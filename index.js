@@ -21,6 +21,7 @@ try {
             client.getProperties(device.id).then(function(properties){
               document.getElementById("device_info").innerHTML = "Device " + properties["ro.product.model"] + " is connected";
               document.getElementById("save_logs").style.pointerEvents = "auto";
+              document.getElementById("capture_screen").style.pointerEvents = "auto";
             }).catch(function(err){
               document.getElementById("device_info").innerHTML = err;
             })}, 500
@@ -29,6 +30,7 @@ try {
         tracker.on('remove', function(device) {
             document.getElementById("device_info").innerHTML = "Device not connected";
             document.getElementById("save_logs").style.pointerEvents = "none";
+            document.getElementById("capture_screen").style.pointerEvents = "none";
         })
         tracker.on('end', function() {
           console.log('Tracking stopped');
@@ -54,7 +56,6 @@ const proc = spawn('adb', ['logcat', '-B'], {
   env: home + "/.android-sdk-macosx/platform-tools/"
 });
 
-var button_click_el = document.getElementById('save_logs');
 var read_me = document.getElementById('readme');
 
 var running = false;
@@ -74,6 +75,8 @@ reader.on('entry', handleNewData => {
   
 });
 
+var button_click_el = document.getElementById('save_logs');
+
 button_click_el.addEventListener('click', function() {
 
   //update logging status
@@ -88,13 +91,20 @@ button_click_el.addEventListener('click', function() {
     running = false;
   }
 
-  // else (document.getElementById('image_icons').src.includes('stop'))
-
   // Make sure we don't leave anything hanging
   process.on('exit', () => {
     proc.kill()
   })
 }, false);
+
+var screen_cap_button = document.getElementById('camera_icon');
+
+screen_cap_button.addEventListener('click', function(){
+  alert('capture screen');
+
+  spawn('sh', ['script.sh', home + "/Desktop/screen.png"]);
+  
+});
 
 // hyperlink to readme file on github
 read_me.addEventListener('click', function() {

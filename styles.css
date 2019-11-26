@@ -7,11 +7,23 @@
   margin-left: 20px;
 }
 
+#options_container{
+  width: 80%;
+  height: 200px;
+  margin: auto;
+  padding: 10px;
+}
 #save_logs {
   pointer-events: none;
-  height: 20%;
-  margin: auto;
-  width: 25%;
+  float: left;
+  height: 150px;
+  margin-right: 40%;
+}
+#capture_screen {
+  pointer-events: none;
+  margin-left: 60%;
+  height: 150px;
+  
 }
 
 #readme:hover{
