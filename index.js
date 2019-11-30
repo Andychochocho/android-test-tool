@@ -28,6 +28,7 @@ try {
           );  
         })
         tracker.on('remove', function(device) {
+            //update status message and disable buttons after removing device
             document.getElementById("device_info").innerHTML = "Device not connected";
             document.getElementById("save_logs").style.pointerEvents = "none";
             document.getElementById("capture_screen").style.pointerEvents = "none";
@@ -100,8 +101,8 @@ button_click_el.addEventListener('click', function() {
 var screen_cap_button = document.getElementById('camera_icon');
 
 screen_cap_button.addEventListener('click', function(){
-  alert('capture screen');
-
+  alert('Saving screenshot');
+  //run script file
   spawn('sh', ['script.sh', home + "/Desktop/screen.png"]);
   
 });
