@@ -35,9 +35,10 @@
   cursor: pointer;
 }
 
-#save_logs:hover{
+#save_logs:hover, #capture_screen:hover{
   cursor: pointer;
 }
+
 
 #readme {
   border:none;
