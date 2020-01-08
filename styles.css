@@ -7,20 +7,38 @@
   margin-left: 20px;
 }
 
+#options_container{
+  width: 80%;
+  height: 150px;
+  margin: auto;
+  padding: 5px;
+}
 #save_logs {
   pointer-events: none;
-  height: 20%;
-  margin: auto;
-  width: 25%;
+  float: left;
+  height: 110px;
+  margin-left: 10%;
+}
+#capture_screen{
+  pointer-events: none;
+  float: right;
+  height: 110px;
+  margin-right: 10%;
+  
+}
+#capture_screen .image{
+  height: 100px;
+  width: 100px;
 }
 
 #readme:hover{
   cursor: pointer;
 }
 
-#save_logs:hover{
+#save_logs:hover, #capture_screen:hover{
   cursor: pointer;
 }
+
 
 #readme {
   border:none;

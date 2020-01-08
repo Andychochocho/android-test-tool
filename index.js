@@ -22,14 +22,17 @@ try {
               document.getElementById("device_info").innerHTML = "Device connected: " + properties["ro.product.model"] + " Android " + properties["ro.build.version.release"];
               console.log(properties);
               document.getElementById("save_logs").style.pointerEvents = "auto";
+              document.getElementById("capture_screen").style.pointerEvents = "auto";
             }).catch(function(err){
               document.getElementById("device_info").innerHTML = err;
             })}, 500
           );  
         })
         tracker.on('remove', function(device) {
+            //update status message and disable buttons after removing device
             document.getElementById("device_info").innerHTML = "Device not connected";
             document.getElementById("save_logs").style.pointerEvents = "none";
+            document.getElementById("capture_screen").style.pointerEvents = "none";
         })
         tracker.on('end', function() {
           console.log('Tracking stopped');
@@ -55,27 +58,55 @@ const proc = spawn('adb', ['logcat', '-B'], {
   env: home + "/.android-sdk-macosx/platform-tools/"
 });
 
-var button_click_el = document.getElementById('save_logs');
 var read_me = document.getElementById('readme');
 
-button_click_el.addEventListener('click', function() {
-  alert('Your logs are being saved!');
-}, false);
+var running = false;
 
-button_click_el.addEventListener('click', function() {
-  // Connect logcat to the stream
-  reader = logcat.readStream(proc.stdout)
-  reader.on('entry', entry => {
-    fs.appendFile(logpath, entry.message, function (err) {
+// Connect logcat to the stream
+reader = logcat.readStream(proc.stdout);
+// attach event handler to stream
+reader.on('entry', handleNewData => {
+  if(running === true){
+    fs.appendFile(logpath, handleNewData.message, function (err) {
       if (err) throw err;
     });
-  })
+  }
+  else{
+    console.log("Log is not running");
+  }
+  
+});
+
+var button_click_el = document.getElementById('save_logs');
+
+button_click_el.addEventListener('click', function() {
+
+  //update logging status
+  if(running === false){
+    alert('Your logs are being saved!');
+    image_icons.src = "./images/stop_icon.png"
+    running = true;
+  }
+  else{
+    alert('Stopping feed!');
+    image_icons.src = "./images/save_icon.png"
+    running = false;
+  }
 
   // Make sure we don't leave anything hanging
   process.on('exit', () => {
     proc.kill()
   })
 }, false);
+
+var screen_cap_button = document.getElementById('camera_icon');
+
+screen_cap_button.addEventListener('click', function(){
+  alert('Saving screenshot');
+  //run script file
+  spawn('sh', ['script.sh', home + "/Desktop/screen.png"]);
+  
+});
 
 // hyperlink to readme file on github
 read_me.addEventListener('click', function() {

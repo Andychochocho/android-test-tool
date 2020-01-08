@@ -1,0 +1,1 @@
+adb shell screencap -p > $1
