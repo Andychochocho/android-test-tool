@@ -105,7 +105,14 @@ screen_cap_button.addEventListener('click', function(){
   alert('Saving screenshot');
   //run script file
   spawn('sh', ['script.sh', home + "/Desktop/screen.png"]);
-  
+});
+
+var video_button = document.getElementById('video_icon');
+
+screen_cap_button.addEventListener('click', function(){
+  alert('Saving video');
+  //run script file
+  spawn('sh', ['script_video.sh', home + "/Desktop/screen.mp4"]);
 });
 
 // hyperlink to readme file on github
