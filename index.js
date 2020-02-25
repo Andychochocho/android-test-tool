@@ -19,7 +19,9 @@ try {
           //give adb time to determine whether the device is authorized before attempting getProperties()
           setTimeout(function (){
             client.getProperties(device.id).then(function(properties){
-              document.getElementById("device_info").innerHTML = "Device connected: " + properties["ro.product.model"] + " Android " + properties["ro.build.version.release"];
+              android_version = properties["ro.build.version.release"];
+              document.getElementById("device_info").innerHTML = "Device connected: " + properties["ro.product.model"] + " Android " + android_version;
+              CreateReader(android_version);
               console.log(properties);
               document.getElementById("save_logs").style.pointerEvents = "auto";
               document.getElementById("capture_screen").style.pointerEvents = "auto";
@@ -50,47 +52,54 @@ try {
   console.error(err)
 }
 
-// Change reader.js (fixLineFeeds: true to false) for newer android devices  
-// Retrieve a binary log stream
+const CreateReader = function(android_version){
 
-const proc = spawn('adb', ['logcat', '-B'], {
-  shell: true,
-  env: home + "/.android-sdk-macosx/platform-tools/"
-});
+  // (change fixLineFeeds: false to true) for android 6 and lower
+  var options = {
+    fixLineFeeds: false,
+  };
+  console.log(android_version);
+  if(android_version < 7){
+    options.fixLineFeeds = true;
+    console.log("version was less than 7: " + android_version);
+  }
 
-var read_me = document.getElementById('readme');
+  // Create reader from stream
+  const proc = spawn('adb', ['logcat', '-B'], {
+    shell: true,
+    env: home + "/.android-sdk-macosx/platform-tools/"
+  });
+ 
+  reader = logcat.readStream(proc.stdout, options);
+
+}
 
 var running = false;
-
-// Connect logcat to the stream
-reader = logcat.readStream(proc.stdout);
-// attach event handler to stream
-reader.on('entry', handleNewData => {
-  if(running === true){
-    fs.appendFile(logpath, handleNewData.message, function (err) {
-      if (err) throw err;
-    });
-  }
-  else{
-    console.log("Log is not running");
-  }
-  
-});
-
 var button_click_el = document.getElementById('save_logs');
 
 button_click_el.addEventListener('click', function() {
 
   //update logging status
   if(running === false){
-    alert('Your logs are being saved!');
-    image_icons.src = "./images/stop_icon.png"
+    image_icons.src = "./images/stop_icon.png";
     running = true;
+
+    // attach event handler to stream
+    reader.on('entry', log_new_data = function(new_data) {
+      console.log('Saving logs...');
+      fs.appendFile(logpath, new_data.message, function (err) {
+        if (err) throw err;
+      });
+    });
+
+    alert('Your logs are being saved!');
+
   }
   else{
-    alert('Stopping feed!');
-    image_icons.src = "./images/save_icon.png"
+    image_icons.src = "./images/save_icon.png";
     running = false;
+    reader.off('entry', log_new_data);
+    alert('Stopping feed!');
   }
 
   // Make sure we don't leave anything hanging
@@ -102,13 +111,13 @@ button_click_el.addEventListener('click', function() {
 var screen_cap_button = document.getElementById('camera_icon');
 
 screen_cap_button.addEventListener('click', function(){
-  alert('Saving screenshot');
   //run script file
   spawn('sh', ['script.sh', home + "/Desktop/screen.png"]);
-  
+  alert('Saving screenshot to desktop');
 });
 
 // hyperlink to readme file on github
+var read_me = document.getElementById('readme');
 read_me.addEventListener('click', function() {
   shell.openExternal('https://github.com/Andychochocho/android-test-tool/blob/master/README.md')
 })
