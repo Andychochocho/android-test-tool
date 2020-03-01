@@ -59,7 +59,7 @@ const CreateReader = function(android_version){
     fixLineFeeds: false,
   };
   console.log(android_version);
-  if(android_version < 7){
+  if(parseInt(android_version) < 7){
     options.fixLineFeeds = true;
     console.log("version was less than 7: " + android_version);
   }
