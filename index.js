@@ -58,10 +58,9 @@ const CreateReader = function(android_version){
   var options = {
     fixLineFeeds: false,
   };
-  console.log(android_version);
+
   if(parseInt(android_version) < 7){
     options.fixLineFeeds = true;
-    console.log("version was less than 7: " + android_version);
   }
 
   // Create reader from stream
@@ -86,7 +85,6 @@ button_click_el.addEventListener('click', function() {
 
     // attach event handler to stream
     reader.on('entry', log_new_data = function(new_data) {
-      console.log('Saving logs...');
       fs.appendFile(logpath, new_data.message, function (err) {
         if (err) throw err;
       });
@@ -112,7 +110,7 @@ var screen_cap_button = document.getElementById('camera_icon');
 
 screen_cap_button.addEventListener('click', function(){
   //run script file
-  spawn('sh', ['script.sh', home + "/Desktop/screen.png"]);
+  spawn('sh', ['script.sh', home + "/Desktop/screencap.png"]);
   alert('Saving screenshot to desktop');
 });
 
