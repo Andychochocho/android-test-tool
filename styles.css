@@ -41,7 +41,7 @@
   cursor: pointer;
 }
 
-#save_logs:hover, #capture_screen:hover{
+#save_logs:hover, #capture_screen:hover, #video_screen:hover{
   cursor: pointer;
 }
 
