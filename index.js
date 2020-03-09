@@ -105,29 +105,25 @@ var screen_cap_button = document.getElementById('camera_icon');
 
 screen_cap_button.addEventListener('click', function(){
   alert('Saving screenshot');
-  //run script file
   spawn('sh', ['script.sh', home + "/Desktop/screen.png"]);
 });
 
 var video_button = document.getElementById('video_icon');
 var videoing = false;
-var process_id;
 video_button.addEventListener('click', function(){
 
   if(videoing === false){
-    process_id = spawn('sh', ['script_video.sh', home + "/Desktop/screen.mp4"]).pid;
+    spawn('sh', ['script_video.sh']);
     alert('Taking video!');
     video_icon.src = "./images/stop_icon.png";
     videoing = true;
   }
   else{
-    spawn('sh', ['script_video_stop.sh', process_id]);
+    spawn('sh', ['script_video_stop.sh', home + "/Desktop/video.mp4"]);
     alert('Stopping video!');
     video_icon.src = "./images/video_icon.png"
     videoing = false;
-    process.kill(process_id);
   }
-  //run script file
 
 });
 
