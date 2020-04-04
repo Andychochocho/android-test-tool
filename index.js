@@ -25,6 +25,7 @@ try {
               console.log(properties);
               document.getElementById("save_logs").style.pointerEvents = "auto";
               document.getElementById("capture_screen").style.pointerEvents = "auto";
+              document.getElementById("video_screen").style.pointerEvents = "auto";
             }).catch(function(err){
               document.getElementById("device_info").innerHTML = err;
             })}, 500
@@ -35,6 +36,7 @@ try {
             document.getElementById("device_info").innerHTML = "Device not connected";
             document.getElementById("save_logs").style.pointerEvents = "none";
             document.getElementById("capture_screen").style.pointerEvents = "none";
+            document.getElementById("video_screen").style.pointerEvents = "none";
         })
         tracker.on('end', function() {
           console.log('Tracking stopped');
@@ -109,9 +111,27 @@ button_click_el.addEventListener('click', function() {
 var screen_cap_button = document.getElementById('camera_icon');
 
 screen_cap_button.addEventListener('click', function(){
-  //run script file
-  spawn('sh', ['script.sh', home + "/Desktop/screencap.png"]);
-  alert('Saving screenshot to desktop');
+  alert('Saving screenshot');
+  spawn('sh', ['script.sh', home + "/Desktop/screen.png"]);
+});
+
+var video_button = document.getElementById('video_icon');
+var videoing = false;
+video_button.addEventListener('click', function(){
+
+  if(videoing === false){
+    spawn('sh', ['script_video.sh']);
+    alert('Taking video!');
+    video_icon.src = "./images/stop_icon.png";
+    videoing = true;
+  }
+  else{
+    spawn('sh', ['script_video_stop.sh', home + "/Desktop/video.mp4"]);
+    alert('Stopping video!');
+    video_icon.src = "./images/video_icon.png"
+    videoing = false;
+  }
+
 });
 
 // hyperlink to readme file on github

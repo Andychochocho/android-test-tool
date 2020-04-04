@@ -24,8 +24,14 @@
   float: right;
   height: 110px;
   margin-right: 10%;
-  
 }
+#video_screen {
+  pointer-events: none;
+  float: left;
+  height: 110px;
+  margin-left: 5%;
+}
+
 #capture_screen .image{
   height: 100px;
   width: 100px;
@@ -35,7 +41,7 @@
   cursor: pointer;
 }
 
-#save_logs:hover, #capture_screen:hover{
+#save_logs:hover, #capture_screen:hover, #video_screen:hover{
   cursor: pointer;
 }
 
