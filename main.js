@@ -8,6 +8,7 @@ function createWindow() {
     width: 600,
     height: 300,
     show: false,
+    icon: __dirname + 'build/icon.icns',
     webPreferences: {
       // devTools: false,
       nodeIntegration: true

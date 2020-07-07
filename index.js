@@ -1,10 +1,19 @@
 const {shell} = require('electron');
 const logcat = require('adbkit-logcat');
 const {spawn} = require('child_process');
+const Promise = require('bluebird');
 const adb = require('adbkit');
-const fs = require('fs');
-const home = require("os").homedir();
 const client = adb.createClient();
+const recordScreen = require('adb-record-screen');
+const fs = require('fs');
+const path = require('path');
+const home = require("os").homedir();
+const fixPath = require('fix-path');
+
+//fix Path variable since once packaged will be run as an application and not through command line
+console.log(process.env.PATH);
+fixPath();
+console.log(process.env.PATH);
 const logpath = home + '/Desktop/logcat.txt';
 
 try {
@@ -109,29 +118,71 @@ button_click_el.addEventListener('click', function() {
 }, false);
 
 var screen_cap_button = document.getElementById('camera_icon');
-
+//get a screenshot
 screen_cap_button.addEventListener('click', function(){
-  alert('Saving screenshot');
-  spawn('sh', ['script.sh', home + "/Desktop/screen.png"]);
+  var scriptPath = path.join(__dirname, '/scripts/script.sh');
+  console.log("Path: " + scriptPath);
+  //spawn('sh', [scriptPath, home + "/Desktop/screen.png"]);adb shell screencap -p /sdcard/screencap.png
+
+  client.listDevices()
+    .then(function(devices) {
+      return Promise.map(devices, function(device) {
+        return client.screencap(device.id, function(err, screencap){
+          var writeStream = fs.createWriteStream(home + "/Desktop/screen.png");
+          screencap.pipe(writeStream);
+        });
+      })
+    })
+    .then(function() {
+      console.log('Took screenshot')
+    })
+    .catch(function(err) {
+      console.error('Something went wrong:', err.stack)
+    })
+
+  alert('Saving screenshot to ' + home + "/Desktop/screen.png");
+
 });
 
 var video_button = document.getElementById('video_icon');
 var videoing = false;
+var recording = null;
+//start/stop screen recording
 video_button.addEventListener('click', function(){
 
   if(videoing === false){
-    spawn('sh', ['script_video.sh']);
-    alert('Taking video!');
+    recording = recordScreen(home + '/Desktop/video.mp4', {
+      bugreport: false,
+      waitTimeout: 5000,
+      bitRate: 10000000,
+      timeLimit: 180, // Time limit (s), maximum is 180 (3 mins)
+      pullDelay: 200 // Delay (ms) before pulling the video file
+    })
+  }
+  
+  if(videoing === false){
+    recording.promise
+      .then(result => {
+        // Screen recording is done
+        process.stdout.write(result.stdout)
+        process.stderr.write(result.stderr)
+      })
+      .catch(error => {
+        // Screen recording has failed
+        console.error(error)
+      })
+
     video_icon.src = "./images/stop_icon.png";
     videoing = true;
+    alert('Recording video!');
   }
   else{
-    spawn('sh', ['script_video_stop.sh', home + "/Desktop/video.mp4"]);
-    alert('Stopping video!');
+    recording.stop();
+    alert('Stopping video record! Saving to ' + home + '/Desktop/video.mp4');
     video_icon.src = "./images/video_icon.png"
     videoing = false;
   }
-
+  
 });
 
 // hyperlink to readme file on github

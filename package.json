@@ -4,10 +4,11 @@
   "description": "A lightweight Android app testing tool for QA professionals.",
   "main": "main.js",
   "scripts": {
+    "postinstall": "install-app-deps",
     "start": "electron .",
     "pack": "build --dir",
     "dist": "build",
-    "test": "mocha"
+    "package-mac": "electron-packager . testTool --platform=darwin --icon=images/icon.icns --out ./release-builds --overwrite"
   },
   "repository": {
     "type": "git",
@@ -20,11 +21,22 @@
   },
   "homepage": "https://github.com/Andychochocho/android-testing-tool#readme",
   "devDependencies": {
-    "electron": "^5.0.1",
+    "electron": "^5.0.13",
+    "electron-builder": "^22.6.0",
     "mocha": "^6.1.4",
     "spectron": "^5.0.0"
   },
   "dependencies": {
-    "adbkit": "^2.11.1"
+    "adb-record-screen": "^1.13.0",
+    "adbkit": "^2.11.1",
+    "child_process": "^1.0.2",
+    "electron-packager": "^14.2.1",
+    "fix-path": "^3.0.0",
+    "yarn": "^1.22.4"
+  },
+  "build": {
+    "extraResources": [
+      "**/extraResources/**"
+    ]
   }
 }
